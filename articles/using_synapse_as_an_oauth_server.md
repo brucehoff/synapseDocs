@@ -62,25 +62,29 @@ library(rjson)
 synLogin()
 
 client_meta_data <- list(
-  client_name='Your client name',
-  redirect_uris= list(
+  client_name = 'Your client name',
+  redirect_uris = list(
     'https://yourhost.com/user/login'
   ),
-  client_uri='https://yourhost.com/index.html',
-  policy_uri='https://yourhost.com/policy',
-  tos_uri='https://yourhost.com/terms_of_service',
-  userinfo_signed_response_alg='RS256'
+  client_uri = 'https://yourhost.com/index.html',
+  policy_uri = 'https://yourhost.com/policy',
+  tos_uri = 'https://yourhost.com/terms_of_service',
+  userinfo_signed_response_alg = 'RS256'
 )
 
 # Create the client:
-client_meta_data<-synRestPOST('/oauth2/client', toJSON(client_meta_data), 
-  'https://repo-prod.prod.sagebase.org/auth/v1')
+client_meta_data <- synRestPOST(
+  uri = '/oauth2/client',
+  body = toJSON(client_meta_data),
+  endpoint = 'https://repo-prod.prod.sagebase.org/auth/v1')
 
-client_id <-  client_meta_data$client_id
+client_id <- client_meta_data$client_id
 
 # Generate and retrieve the client secret:
-client_id_and_secret<-synRestPOST(paste0('/oauth2/client/secret/',client_id), 
-  '', 'https://repo-prod.prod.sagebase.org/auth/v1')
+client_id_and_secret <- synRestPOST(
+  uri = paste0('/oauth2/client/secret/',client_id),
+  body = '',
+  endpoint = 'https://repo-prod.prod.sagebase.org/auth/v1')
 
 print(client_id_and_secret)
 ```
